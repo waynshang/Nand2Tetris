@@ -73,9 +73,11 @@ class Parser
 	def parse(symtable, address)
 		# first 16 address have been used by default
 		@gen_code = []
-		# neglect white space and 
+		# neglect white space and
+		check_label(symtable)
 		lines.each{|line|
 			@current = line
+
 			unless current.empty?
 				case command_type
 				when A_COMMAND
@@ -100,8 +102,24 @@ class Parser
 		gen_code
 	end
 
+	def check_label(symtable)
+		address = 0
+		lines.each{|line|
+			@current = line
+			
+			case command_type
+			when L_COMMAND
+				puts address
+				symtable.add_symtable(current.gsub(/[()]/, ""), address)
+			else
+				address += 1
+			end
+		}
+	end
+
 
 	def command_type
+		puts current
 		if current.start_with?('@')
 		  A_COMMAND
 		elsif current.start_with?('(')
@@ -134,6 +152,6 @@ class Parser
 		end
 	end
 	private :striped, :command_type, :dest, :comp, :jump
-	attr_reader :lines, :gen_code, :current
+	attr_reader :lines, :gen_code, :current, :address
 end
 

@@ -29,10 +29,11 @@ SYMTABLE = {
 };
 def main (filename)
 	asm = open(filename)
-	puts asm
+
 
 	symtable = SymbolTable.new(SYMTABLE)
 	parser = Parser.new(asm)
+
 	address = 16;
 	parser.parse(symtable, address)
 	filename = File.basename(filename.split('/').last, '.asm')
@@ -42,22 +43,6 @@ end
 
 Dir["../ASM/*"].each{|file| main(file)}
 
-
-
-
-
-
-
-
-
-#puts !!(21.to_s =~ /\A[-+]?\d*\.?\d+\z/)
-# route = './rect/RectL'
-# # route = './pong/PongL'
-# # route = './max/MaxL'
-# file =File.open( "test.hack", 'w')
-# file.puts("test")
-# main(route + ".asm")
-# Dir["../ASM/*"].each{|file| puts File.basename(file.split('/').last, '.asm')}
 
 
 
